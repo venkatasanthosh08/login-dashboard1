@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>User Login</h2>
+
+        <form id="loginForm">
+            <input type="text" id="username"
+                   placeholder="Enter username" required>
+
+            <input type="password" id="password"
+                   placeholder="Enter password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p id="message"></p>
+        <p>Demo: admin / 1234</p>
+    </div>
+
+    <script>
+        // Store user information in Local Storage
+        if (!localStorage.getItem("userInfo")) {
+            const user = {
+                username: "admin",
+                password: "1234"
+            };
+
+            localStorage.setItem("userInfo", JSON.stringify(user));
+        }
+
+        // Redirect if already logged in
+        if (sessionStorage.getItem("loggedIn") === "true") {
+            window.location.replace("javascript.html");
+        }
+
+        document.getElementById("loginForm").addEventListener("submit",
+            function(event) {
+                event.preventDefault();
+
+                const username =
+                    document.getElementById("username").value.trim();
+                const password =
+                    document.getElementById("password").value;
+
+                const user = JSON.parse(
+                    localStorage.getItem("userInfo")
+                );
+
+                if (username === user.username &&
+                    password === user.password) {
+
+                    sessionStorage.setItem("loggedIn", "true");
+                    sessionStorage.setItem("username", username);
+
+                    localStorage.setItem("lastUsername", username);
+
+                    window.location.href = "javascript.html";
+                } else {
+                    document.getElementById("message").textContent =
+                        "Invalid username or password!";
+                }
+            });
+    </script>
+</body>
+</html>

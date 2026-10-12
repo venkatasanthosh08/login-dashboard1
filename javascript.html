@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Dashboard</h1>
+
+        <h2 id="welcomeMessage"></h2>
+
+        <p>You have successfully logged in.</p>
+
+        <button id="logoutButton">Logout</button>
+    </div>
+
+    <script>
+        // Check whether the user is logged in
+        if (sessionStorage.getItem("loggedIn") !== "true" ||
+            !sessionStorage.getItem("username")) {
+
+            window.location.replace("login.html");
+
+        } else {
+            const username = sessionStorage.getItem("username");
+
+            document.getElementById("welcomeMessage").textContent =
+                "Hello, " + username + "!";
+        }
+
+        // Logout and clear the login session
+        document.getElementById("logoutButton").addEventListener("click",
+            function() {
+                sessionStorage.removeItem("loggedIn");
+                sessionStorage.removeItem("username");
+
+                window.location.replace("login.html");
+            });
+    </script>
+</body>
+</html>
